@@ -11,3 +11,7 @@ Everything else is just plumbing.
 
 This example avoids the complexity of having/starting/stopping a
 webapp-under-test by "testing" searches on www.google.com.
+
+
+Chromedriver from http://chromedriver.storage.googleapis.com/index.html
+Selenium stand-alone (Java JAR) from http://selenium-release.storage.googleapis.com/index.html
