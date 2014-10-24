@@ -1,27 +1,50 @@
 var webdriver = require('selenium-webdriver');
 
 describe("www.google.com", function () {
-  it("should give results for a known search", function (done) {
+  function waitForSelenium() {
+    waitsFor(
+        function() { return seleniumFinished; },
+        "waiting for selenium-finished flag to turn true",
+        10000
+    );
+  }
 
-    var driver = new webdriver.Builder().
-        withCapabilities(webdriver.Capabilities.chrome()).
-        build();
+  it("should give results for a known search", function () {
+    var seleniumFinished = false,
+        expectedPageTitle = 'webdriver - Google Search',
+        driver = new webdriver.Builder().
+            withCapabilities(webdriver.Capabilities.chrome()).
+            build();
 
-    driver.get('http://www.google.com');
-    driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
-    driver.findElement(webdriver.By.name('btnG')).click();
-    driver.wait(function() {
-console.log("webdriver wait callback");
-      return driver.getTitle().then(function(title) {
-console.log("  getTitle promise resolved:  " + title);
-        return title === 'webdriver - Google Search';
+    runs(function() {
+      // here, use serialization mechanism built into WebDriver
+      driver.get('http://www.google.com');
+      driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
+      driver.findElement(webdriver.By.name('btnG')).click();
+
+      driver.
+          wait(function() {
+            return driver.getTitle().then(function(title) {
+              pageTitle = title;
+              if (title === expectedPageTitle) {
+                return true;
+              }
+            });
+          }, 1000).
+          thenCatch(function() {
+            //catch timeout of wait() so that we get a better assert failure message than "timeout"
+          });
+
+      // we can't do quit() in an afterEach() or it executes out of order and the browser never closes
+      driver.quit().then(function() {
+        seleniumFinished = true;
       });
-    }, 1000).then(function() {
-      console.log("wait finished.  we got:");
-      console.log(arguments);
-      done();
     });
 
-    driver.quit();
+    waitForSelenium();
+
+    runs(function() {
+      expect(pageTitle).toEqual(expectedPageTitle);
+    });
   });
 });
