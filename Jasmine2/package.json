@@ -1,0 +1,31 @@
+{
+  "name": "jasmine-node-webdriver",
+  "version": "0.0.0",
+  "description": "An example of configuring jasmine-node (w/ jasmine 2) to drive in-browser tests via selenium-webdriver.",
+  "homepage": "https://github.com/gleneivey/jasmine-node-webdriver",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gleneivey/jasmine-node-webdriver.git"
+  },
+  "keywords": [ "node.js", "jasmine", "selenium", "webdriver", "test", "automation"],
+  "author": "Glen E. Ivey",
+  "license": "MIT",
+  "bugs": { "url": "https://github.com/gleneivey/jasmine-node-webdriver/issues"},
+  "engines": {
+    "node": "~0.10.0"
+  },
+  "engineStrict": true,
+  "scripts": {
+    "test": "grunt"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-express-server": "~0.4.19",
+    "grunt-jasmine-node": "~0.2.1",
+    "jasmine-node": "git://github.com/mhevery/jasmine-node.git#Jasmine2.0",
+    "matchdep": "~0.3.0",
+    "selenium-webdriver": "~2.43.5"
+  }
+}
